@@ -238,7 +238,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 #ifdef Q_OS_WIN
     foreach (QToolButton *btn, ui->menuWidget->findChildren<QToolButton *>())
-        btn->setIconSize(QSize(32, 32));
+        btn->setIconSize(QSize(34, 34));
     ui->navbar->setFixedHeight(56);
 #endif
 
