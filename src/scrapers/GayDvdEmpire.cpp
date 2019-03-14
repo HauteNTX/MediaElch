@@ -8,7 +8,7 @@
 #include "globals/NetworkReplyWatcher.h"
 #include "settings/Settings.h"
 
-AdultDvdEmpire::AdultDvdEmpire(QObject* parent) :
+GayDvdEmpire::GayDvdEmpire(QObject* parent) :
     m_scraperSupports{MovieScraperInfos::Title,
         MovieScraperInfos::Released,
         MovieScraperInfos::Runtime,
@@ -24,55 +24,55 @@ AdultDvdEmpire::AdultDvdEmpire(QObject* parent) :
     setParent(parent);
 }
 
-QString AdultDvdEmpire::name() const
+QString GayDvdEmpire::name() const
 {
-    return QStringLiteral("Adult DVD Empire");
+    return QStringLiteral("Gay DVD Empire");
 }
 
-QString AdultDvdEmpire::identifier() const
+QString GayDvdEmpire::identifier() const
 {
     return scraperIdentifier;
 }
 
-bool AdultDvdEmpire::isAdult() const
+bool GayDvdEmpire::isAdult() const
 {
     return true;
 }
 
-QVector<MovieScraperInfos> AdultDvdEmpire::scraperSupports()
+QVector<MovieScraperInfos> GayDvdEmpire::scraperSupports()
 {
     return m_scraperSupports;
 }
 
-QVector<MovieScraperInfos> AdultDvdEmpire::scraperNativelySupports()
+QVector<MovieScraperInfos> GayDvdEmpire::scraperNativelySupports()
 {
     return m_scraperSupports;
 }
 
-std::vector<ScraperLanguage> AdultDvdEmpire::supportedLanguages()
+std::vector<ScraperLanguage> GayDvdEmpire::supportedLanguages()
 {
     return {{tr("English"), "en"}};
 }
 
-void AdultDvdEmpire::changeLanguage(QString /*languageKey*/)
+void GayDvdEmpire::changeLanguage(QString /*languageKey*/)
 {
     // no-op: only one language is supported and hard-coded.
 }
 
-QString AdultDvdEmpire::defaultLanguageKey()
+QString GayDvdEmpire::defaultLanguageKey()
 {
     return QStringLiteral("en");
 }
 
-QNetworkAccessManager* AdultDvdEmpire::qnam()
+QNetworkAccessManager* GayDvdEmpire::qnam()
 {
     return &m_qnam;
 }
 
-void AdultDvdEmpire::search(QString searchStr)
+void GayDvdEmpire::search(QString searchStr)
 {
     QString encodedSearch = QUrl::toPercentEncoding(searchStr);
-    QUrl url(QStringLiteral("https://www.adultdvdempire.com/dvd/search?view=list&q=%1").arg(encodedSearch));
+    QUrl url(QStringLiteral("https://www.gaydvdempire.com/dvd/search?view=list&q=%1").arg(encodedSearch));
     QNetworkReply* reply = qnam()->get(QNetworkRequest(url));
     new NetworkReplyWatcher(this, reply);
     connect(reply, &QNetworkReply::finished, this, &AdultDvdEmpire::onSearchFinished);
@@ -93,7 +93,7 @@ void AdultDvdEmpire::onSearchFinished()
     emit searchDone(parseSearch(msg));
 }
 
-QVector<ScraperSearchResult> AdultDvdEmpire::parseSearch(QString html)
+QVector<ScraperSearchResult> GayDvdEmpire::parseSearch(QString html)
 {
     QTextDocument doc;
     QVector<ScraperSearchResult> results;
@@ -112,10 +112,10 @@ QVector<ScraperSearchResult> AdultDvdEmpire::parseSearch(QString html)
     return results;
 }
 
-void AdultDvdEmpire::loadData(QMap<MovieScraperInterface*, QString> ids, Movie* movie, QVector<MovieScraperInfos> infos)
+void GayDvdEmpire::loadData(QMap<MovieScraperInterface*, QString> ids, Movie* movie, QVector<MovieScraperInfos> infos)
 {
     movie->clear(infos);
-    QUrl url(QStringLiteral("https://www.adultdvdempire.com%1").arg(ids.values().first()));
+    QUrl url(QStringLiteral("https://www.gaydvdempire.com%1").arg(ids.values().first()));
     QNetworkReply* reply = qnam()->get(QNetworkRequest(url));
     new NetworkReplyWatcher(this, reply);
     reply->setProperty("storage", Storage::toVariant(reply, movie));
@@ -124,7 +124,7 @@ void AdultDvdEmpire::loadData(QMap<MovieScraperInterface*, QString> ids, Movie* 
     connect(reply, &QNetworkReply::finished, this, &AdultDvdEmpire::onLoadFinished);
 }
 
-void AdultDvdEmpire::onLoadFinished()
+void GayDvdEmpire::onLoadFinished()
 {
     auto reply = static_cast<QNetworkReply*>(QObject::sender());
     Movie* movie = reply->property("storage").value<Storage*>()->movie();
@@ -140,7 +140,7 @@ void AdultDvdEmpire::onLoadFinished()
     movie->controller()->scraperLoadDone(this);
 }
 
-void AdultDvdEmpire::parseAndAssignInfos(QString html, Movie* movie, QVector<MovieScraperInfos> infos)
+void GayDvdEmpire::parseAndAssignInfos(QString html, Movie* movie, QVector<MovieScraperInfos> infos)
 {
     QTextDocument doc;
     QRegExp rx;
@@ -250,22 +250,22 @@ void AdultDvdEmpire::parseAndAssignInfos(QString html, Movie* movie, QVector<Mov
     }
 }
 
-bool AdultDvdEmpire::hasSettings() const
+bool GayDvdEmpire::hasSettings() const
 {
     return false;
 }
 
-void AdultDvdEmpire::loadSettings(const ScraperSettings& settings)
+void GayDvdEmpire::loadSettings(const ScraperSettings& settings)
 {
     Q_UNUSED(settings);
 }
 
-void AdultDvdEmpire::saveSettings(ScraperSettings& settings)
+void GayDvdEmpire::saveSettings(ScraperSettings& settings)
 {
     Q_UNUSED(settings);
 }
 
-QWidget* AdultDvdEmpire::settingsWidget()
+QWidget* GayDvdEmpire::settingsWidget()
 {
     return nullptr;
-}
+
